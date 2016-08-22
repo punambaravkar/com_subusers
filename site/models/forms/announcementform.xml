@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+
+	   <field name="title" type="text" size="40" class="inputbox"
+
+			label="COM_SUBUSERS_FORM_LBL_ANNOUNCEMENT_TITLE"
+			description="COM_SUBUSERS_FORM_DESC_ANNOUNCEMENT_TITLE"
+			required="true"
+			filter="safehtml" />
+
+
+		 <field name="introtext" type="textarea" class="textarea"
+		label="COM_SUBUSERS_FORM_LBL_ANNOUNCEMENT_DESCRIPTION"
+		description="COM_SUBUSERS_FORM_DESC_ANNOUNCEMENT_DESCRIPTION"
+		required="true"
+		filter="safehtml" />
+
+		<field name="orgid" type="hidden" readonly="true" class="readonly" />
+
+	</fieldset>
+
+</form>

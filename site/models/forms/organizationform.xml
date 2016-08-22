@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field name="id" type="text" default="0" size="40"
+			label="COM_SUBUSERS_FORM_LBL_ORGANISATION_ID"
+			readonly="true" class="readonly"
+			description="COM_SUBUSERS_FORM_LBL_ORGANISATION_ID_DESC" />
+
+		<field name="name" type="text" size="40" class="inputbox"
+			label="COM_SUBUSERS_FORM_LBL_ORGANISATION_NAME"
+			description="COM_SUBUSERS_FORM_DESC_ORGANISATION_NAME"
+			required="true"
+			filter="safehtml" />
+
+		<field name="created_by" type="text"
+			label="COM_SUBUSERS_FORM_LBL_ORGANISATION_CREATED_BY"
+			description="COM_SUBUSERS_FORM_DESC_ORGANISATION_CREATED_BY"
+			menu_published="0"
+			filter="raw"
+			directory_stripext="true"
+			directory_hidenode="true"
+			directory_hidedefault="true"
+			alias_generator="2191772"
+			heading="h4" close="true"
+			option_on="Yes"
+			option_off="Yes">
+			 <group label="">
+				<option value=""></option>
+			 </group>
+		</field>
+
+		<field name="email" type="email" size="40"
+			label="Organisation Email"
+			description="Enter organisation email"
+			validate="email"
+			required="true" />
+
+		<field name="userid" type="sql" default="0"
+			label="COM_SUBUSERS_FORM_LBL_USERID"
+			description="COM_SUBUSERS_FORM_DESC_USERID"
+			query="select distinct(id),name FROM `esj_users` where id NOT IN (select distinct(user_id) FROM `esj_tjsu_users` where role_id = 1) ORDER BY name ASC"
+			key_field="id" value_field="name" required="true">
+			<option value="">COM_SUBUSERS_SELECT_USER</option>
+		</field>
+
+		<field name="logo" type="FileMultiple"
+			label="COM_SUBUSERS_FORM_LBL_ORGANISATION_LOGO"
+			description="COM_SUBUSERS_FORM_DESC_ORGANISATION_LOGO"
+			required="true"
+			filter="raw"
+			upload_directory="images/com_subusers/partners/"
+			accept="image/jpeg,image/png"
+			labelclass="col-lg-2 col-md-2 col-sm-3 col-xs-12 control-label"
+			inputclass="col-lg-4 col-md-5 col-sm-9 col-xs-12">
+				<group label="">
+					<option value="" />
+				</group>
+		</field>
+
+		<field name="description" type="textarea" class="textarea"
+			label="COM_SUBUSERS_FORM_LBL_ORGANISATION_ABOUT_US"
+			description="COM_SUBUSERS_FORM_DESC_ORGANISATION_ABOUT_US"
+			required="true"
+			filter="safehtml" />
+
+		<field name="state" type="list" label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC"
+			class="inputbox"
+			size="1"
+			default="1">
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+
+		<field name="checked_out" type="hidden" filter="unset" />
+		<field name="checked_out_time" type="hidden" filter="unset" />
+
+	</fieldset>
+</form>

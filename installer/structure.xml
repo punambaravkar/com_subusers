@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<component>
+  <table action="change" old_name="#__tj_cluster_role_action_map" new_name="#__tjsu_role_action_map" table_name="#__tjsu_role_action_map" storage_engine="" collation="utf8_general_ci">
+    <field field_name="id" field_type="INT" field_length="11" is_autoincrement="1" index="primary" description=""/>
+    <field action="change" old_name="name" new_name="role_id" field_name="role_id" field_type="INT" field_length="11" description="Role"/>
+    <field action="add" field_name="action_id" field_type="INT" field_length="11" description="Action"/>
+    <field field_name="client" field_type="VARCHAR" field_length="255" description="Client"/>
+    <field field_name="created_by" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="checked_out" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="checked_out_time" field_type="DATETIME" description=""/>
+    <field field_name="ordering" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="state" field_type="TINYINT" field_length="1" index="index" description=""/>
+  </table>
+  <table action="change" old_name="#__tj_organizations" new_name="#__tjsu_organizations" table_name="#__tjsu_organizations" storage_engine="" collation="utf8_general_ci">
+    <field action="change" field_name="id" field_type="INT" field_length="11" is_autoincrement="1" index="primary" description=""/>
+    <field action="change" field_name="name" field_type="VARCHAR" field_length="255" description="Enter Organisation name"/>
+    <field action="change" field_name="created_by" field_type="VARCHAR" field_length="255" index="index" description="Enter user "/>
+    <field field_name="checked_out" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="checked_out_time" field_type="DATETIME" description=""/>
+    <field field_name="ordering" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="state" field_type="TINYINT" field_length="1" index="index" description=""/>
+    <field action="change" field_name="email" field_type="VARCHAR" field_length="255" description="Enter organisation email"/>
+    <field action="change" field_name="logo" field_type="TEXT" description=""/>
+  </table>
+  <table action="change" old_name="#__tj_cluster_users" new_name="#__tjsu_users" table_name="#__tjsu_users" storage_engine="" collation="utf8_general_ci">
+    <field action="change" field_name="id" field_type="INT" field_length="11" is_autoincrement="1" description=""/>
+    <field action="change" field_name="user_id" field_type="VARCHAR" field_length="255" description="Choose user"/>
+    <field action="add" field_name="client" field_type="VARCHAR" field_length="255" description="Client"/>
+    <field action="change" old_name="company_id" new_name="client_id" field_name="client_id" field_type="INT" field_length="11" description="Choose Organization"/>
+    <field action="change" field_name="role_id" field_type="INT" field_length="11" description=""/>
+    <field action="change" field_name="created_by" field_type="INT" field_length="11" index="index" description="Creator"/>
+    <field action="add" field_name="checked_out" field_type="INT" field_length="11" description=""/>
+    <field action="add" field_name="checked_out_time" field_type="DATETIME" description=""/>
+    <field action="add" field_name="ordering" field_type="INT" field_length="11" description=""/>
+    <field action="add" field_name="state" field_type="TINYINT" field_length="1" description="State"/>
+  </table>
+  <table action="change" old_name="#__tj_cluster_roles" new_name="#__tjsu_roles" table_name="#__tjsu_roles" storage_engine="" collation="utf8_general_ci">
+    <field field_name="id" field_type="INT" field_length="11" is_autoincrement="1" index="primary" description=""/>
+    <field action="add" field_name="name" field_type="VARCHAR" field_length="255" description="Role Name"/>
+    <field action="add" field_name="client" field_type="VARCHAR" field_length="255" description="Client"/>
+    <field field_name="created_by" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="checked_out" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="checked_out_time" field_type="DATETIME" description=""/>
+    <field field_name="ordering" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="state" field_type="TINYINT" field_length="1" index="index" description=""/>
+  </table>
+  <table action="change" old_name="#__tj_cluster_actions" new_name="#__tjsu_actions" table_name="#__tjsu_actions" storage_engine="" collation="utf8_general_ci">
+    <field field_name="id" field_type="INT" field_length="11" is_autoincrement="1" index="primary" description=""/>
+    <field field_name="name" field_type="VARCHAR" field_length="255" description="Role Name"/>
+    <field field_name="client" field_type="VARCHAR" field_length="255" description="Client"/>
+    <field field_name="created_by" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="checked_out" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="checked_out_time" field_type="DATETIME" description=""/>
+    <field field_name="ordering" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="state" field_type="TINYINT" field_length="1" index="index" description=""/>
+  </table>
+</component>

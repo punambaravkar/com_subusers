@@ -22,7 +22,7 @@ $document->addStyleSheet(JPATH_ROOT . 'media/com_subusers/css/edit.css');
 <script type="text/javascript">
 	js = jQuery.noConflict();
 	js(document).ready(function () {
-		
+
 	});
 
 	Joomla.submitbutton = function (task) {
@@ -30,9 +30,9 @@ $document->addStyleSheet(JPATH_ROOT . 'media/com_subusers/css/edit.css');
 			Joomla.submitform(task, document.getElementById('role-form'));
 		}
 		else {
-			
+
 			if (task != 'role.cancel' && document.formvalidator.isValid(document.id('role-form'))) {
-				
+
 				Joomla.submitform(task, document.getElementById('role-form'));
 			}
 			else {
@@ -53,33 +53,36 @@ $document->addStyleSheet(JPATH_ROOT . 'media/com_subusers/css/edit.css');
 		<div class="row-fluid">
 			<div class="span10 form-horizontal">
 				<fieldset class="adminform">
+			<input type="hidden" name="jform[id]" value="<?php echo $this->item->id; ?>" />
 
-									<input type="hidden" name="jform[id]" value="<?php echo $this->item->id; ?>" />
 			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('name'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('name'); ?></div>
 			</div>
-				<input type="hidden" name="jform[client]" value="<?php echo $this->item->client; ?>" />
 
-				<?php if(empty($this->item->created_by)){ ?>
-					<input type="hidden" name="jform[created_by]" value="<?php echo JFactory::getUser()->id; ?>" />
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('actions'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('actions'); ?></div>
+			</div>
 
-				<?php } 
-				else{ ?>
-					<input type="hidden" name="jform[created_by]" value="<?php echo $this->item->created_by; ?>" />
 
-				<?php } ?>				<input type="hidden" name="jform[checked_out]" value="<?php echo $this->item->checked_out; ?>" />
-				<input type="hidden" name="jform[checked_out_time]" value="<?php echo $this->item->checked_out_time; ?>" />
+			<input type="hidden" name="jform[client]" value="<?php echo $this->item->client; ?>" />
+
+			<?php if(empty($this->item->created_by))
+			{ ?>
+				<input type="hidden" name="jform[created_by]" value="<?php echo JFactory::getUser()->id; ?>" />
+			<?php }
+			else{ ?>
+				<input type="hidden" name="jform[created_by]" value="<?php echo $this->item->created_by; ?>" />
+			<?php } ?>
+
 				<input type="hidden" name="jform[ordering]" value="<?php echo $this->item->ordering; ?>" />
-				<input type="hidden" name="jform[state]" value="<?php echo $this->item->state; ?>" />
-
-
 				</fieldset>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		
+
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

@@ -4,7 +4,7 @@
  * @version    CVS: 1.0.0
  * @package    Com_Subusers
  * @author     Techjoomla <contact@techjoomla.com>
- * @copyright  Copyright (C) 2015. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -33,10 +33,8 @@ class SubusersModelRoles extends JModelList
 			$config['filter_fields'] = array(
 				'id', 'a.`id`',
 				'name', 'a.`name`',
-				'client', 'a.`client`',
 				'created_by', 'a.`created_by`',
 				'ordering', 'a.`ordering`',
-				'state', 'a.`state`',
 			);
 		}
 
@@ -64,9 +62,6 @@ class SubusersModelRoles extends JModelList
 		$search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$published = $app->getUserStateFromRequest($this->context . '.filter.state', 'filter_published', '', 'string');
-		$this->setState('filter.state', $published);
-
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_subusers');
 		$this->setState('params', $params);
@@ -92,7 +87,6 @@ class SubusersModelRoles extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.state');
 
 		return parent::getStoreId($id);
 	}
@@ -118,25 +112,9 @@ class SubusersModelRoles extends JModelList
 		);
 		$query->from('`#__tjsu_roles` AS a');
 
-		// Join over the users for the checked out user
-		$query->select("uc.name AS editor");
-		$query->join("LEFT", "#__users AS uc ON uc.id=a.checked_out");
-
 		// Join over the user field 'created_by'
 		$query->select('`created_by`.name AS `created_by`');
 		$query->join('LEFT', '#__users AS `created_by` ON `created_by`.id = a.`created_by`');
-
-		// Filter by published state
-		$published = $this->getState('filter.state');
-
-		if (is_numeric($published))
-		{
-			$query->where('a.state = ' . (int) $published);
-		}
-		elseif ($published === '')
-		{
-			$query->where('(a.state IN (0, 1))');
-		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');

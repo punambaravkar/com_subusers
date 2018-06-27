@@ -119,7 +119,94 @@ class SubusersModelRole extends JModelAdmin
 			// Do any procesing on fields here if needed
 		}
 
+		// $item->actions = self::getActions($item->id);
+
 		return $item;
+	}
+
+	public function getActions($role_id)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('action');
+		$query->from($db->quoteName('#__tjsu_role_action_map'));
+		$query->where($db->quoteName('role_id')." = ".$db->quote($role_id));
+
+		$db->setQuery($query);
+		$actions = $db->loadColumn();
+		return $actions;
+	}
+
+	public function save($data)
+	{
+		// Initialise variables.
+		$userId = (!empty($data['id'])) ? $data['id'] : (int)$this->getState('user.id');
+		$user = JFactory::getUser();
+
+		$table_one = $this->getTable('role', 'SubusersTable', array());
+
+		// Bind the data.
+		if (!$table_one->bind($data))
+		{
+			$this->setError(JText::sprintf('USERS PROFILE BIND FAILED', $user->getError()));
+			return false;
+		}
+
+		// Store the data.
+		if (!$table_one->save($data))
+		{
+			$this->setError($user->getError());
+			return false;
+		}
+
+		//The fast way
+		if (! $data['id'])
+		{
+			$db = $table_one->getDBO();
+			$role_id = $db->insertid();
+		}else
+		{
+			$role_id = $data['id'];
+		}
+
+		$jinput = JFactory::getApplication()->input;
+		$role_actions = $jinput->get('role_actions', array(), 'ARRAY');
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// delete all custom keys for role_id
+		$conditions = array($db->quoteName('role_id') . ' = ' . $role_id);
+		$query->delete($db->quoteName('#__tjsu_role_action_map'));
+		$query->where($conditions);
+		$db->setQuery($query);
+		$db->execute();
+
+		foreach ($role_actions as $role_action)
+		{
+			// Create and populate an object.
+			$action_map = new stdClass();
+			$action_map->user_id = null;
+			$action_map->role_id = $role_id;
+			$action_map->action = $role_action;
+
+			// Insert the object into the user #__tjsu_role_action_map table.
+			JFactory::getDbo()->insertObject('#__tjsu_role_action_map', $action_map);
+		}
+
+
+		$task = $jinput->get('task', '', 'STRING');
+
+		if ($task === "apply")
+		{
+			$app = JFactory::getApplication();
+			$url = JRoute::_('index.php?option=com_subusers&view=role&layout=edit&id=' . (int)$role_id, false);
+			$app->redirect($url, JText::_('JLIB_APPLICATION_SAVE_SUCCESS'));
+		}
+
+		// Set the error to empty and return true.
+		$this->setError('');
+		return true;
 	}
 
 	/**
@@ -160,7 +247,7 @@ class SubusersModelRole extends JModelAdmin
 				{
 					throw new Exception($table->getError());
 				}
-				
+
 
 				// Trigger the before save event.
 				$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, true));

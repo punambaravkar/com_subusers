@@ -34,11 +34,9 @@ class SubusersModelUsers extends JModelList
 				'id', 'a.`id`',
 				'user_id', 'a.`user_id`',
 				'client', 'a.`client`',
-				'client_id', 'a.`client_id`',
+				'client_content_id', 'a.`client_content_id`',
 				'role_id', 'a.`role_id`',
 				'created_by', 'a.`created_by`',
-				'ordering', 'a.`ordering`',
-				'state', 'a.`state`',
 			);
 		}
 
@@ -66,11 +64,16 @@ class SubusersModelUsers extends JModelList
 		$search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$published = $app->getUserStateFromRequest($this->context . '.filter.state', 'filter_published', '', 'string');
-		$this->setState('filter.state', $published);
+		// Load the filter state.
+		$curriculum = $app->getUserStateFromRequest($this->context . '.filter.curriculum', 'filter_curriculum', 1, 'string');
+		$this->setState('filter.curriculum', $curriculum);
+		
+		// Load the filter role.
+		$roles = $app->getUserStateFromRequest($this->context . '.filter.roles', 'filter_roles');
+		$this->setState('filter.roles', $roles);
+        
 		// Filtering user_id
 		$this->setState('filter.user_id', $app->getUserStateFromRequest($this->context.'.filter.user_id', 'filter_user_id', '', 'string'));
-
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_subusers');
@@ -97,7 +100,6 @@ class SubusersModelUsers extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.state');
 
 		return parent::getStoreId($id);
 	}
@@ -123,36 +125,28 @@ class SubusersModelUsers extends JModelList
 		);
 		$query->from('`#__tjsu_users` AS a');
 
-		// Join over the users for the checked out user
-		$query->select("uc.name AS editor");
-		$query->join("LEFT", "#__users AS uc ON uc.id=a.checked_out");
-
 		// Join over the user field 'user_id'
-		$query->select('`user_id`.name AS `user_id`');
+		$query->select('`a`.user_id AS `user_original_id`,`user_id`.name AS `user_id`');
 		$query->join('LEFT', '#__users AS `user_id` ON `user_id`.id = a.`user_id`');
-
+        
+        //Get the roles name
+        $query->select('`tjr`.name AS `role_name`');
+		$query->join('INNER', '#__tjsu_roles AS `tjr` ON `a`.role_id = tjr.`id`');
+		
+		$query->select('`ceu`.state AS `ceu_state`');
+		$query->join('INNER', $db->quoteName('#__tjlms_curriculum_enrolled_users', 'ceu') . ' ON (' .
+		$db->quoteName('ceu.user_id') . ' = ' . $db->quoteName('user_id.id') . ') AND '.$db->quoteName('ceu.state') . '= 1 AND '.$db->quoteName('ceu.curriculum_id') .'= '.$this->getState('filter.curriculum'));
+		
 		// Join over the user field 'created_by'
 		$query->select('`created_by`.name AS `created_by`');
 		$query->join('LEFT', '#__users AS `created_by` ON `created_by`.id = a.`created_by`');
-
-		// Join over the organization field 'name'
-		$query->select('`o`.name AS `organization_name`');
-		$query->join('LEFT', '#__tjsu_organizations AS `o` ON `o`.id = a.`client_id`');
-
-		// Filter by published state
-		$published = $this->getState('filter.state');
-
-		if (is_numeric($published))
-		{
-			$query->where('a.state = ' . (int) $published);
-		}
-		elseif ($published === '')
-		{
-			$query->where('(a.state IN (0, 1))');
-		}
-
-		// Filter by search in title
+        
+        $query->where($db->quoteName('a.client') . " = " . $db->quote("com_tjlms.curriculum"));
+        
+        // Filter by search in title
 		$search = $this->getState('filter.search');
+		$curriculum_id = $this->getState('filter.curriculum');
+		$role_id = $this->getState('filter.roles');
 
 		if (!empty($search))
 		{
@@ -163,8 +157,16 @@ class SubusersModelUsers extends JModelList
 			else
 			{
 				$search = $db->Quote('%' . $db->escape($search, true) . '%');
-				$query->where('( a.`id` LIKE ' . $search . '  OR  a.`user_id` LIKE ' . $search . '  OR  a.`client_id` LIKE ' . $search . ' )');
+				$query->where('( a.`id` LIKE ' . $search . '  OR  a.`user_id` LIKE ' . $search . '  OR  a.`client_content_id` LIKE ' . $search . ' )');
 			}
+		}
+		if (!empty($curriculum_id))
+		{
+			$query->where('a.client_content_id = ' . (int) $curriculum_id);
+		}
+		if (!empty($role_id))
+		{
+			$query->where('a.role_id = ' . (int) $role_id);
 		}
 
 

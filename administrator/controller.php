@@ -31,7 +31,7 @@ class SubusersController extends JControllerLegacy
 	{
 		require_once JPATH_COMPONENT . '/helpers/subusers.php';
 
-		$view = JFactory::getApplication()->input->getCmd('view', 'organizations');
+		$view = JFactory::getApplication()->input->getCmd('view', 'roles');
 		JFactory::getApplication()->input->set('view', $view);
 
 		parent::display($cachable, $urlparams);

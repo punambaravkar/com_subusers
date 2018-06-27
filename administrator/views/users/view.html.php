@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
+require_once JPATH_ROOT . '/components/com_tjlms/helpers/curriculum.php';
+require_once JPATH_BASE . '/components/com_subusers/models/roles.php';
+
 /**
  * View class for a list of Subusers.
  *
@@ -39,7 +42,18 @@ class SubusersViewUsers extends JViewLegacy
 		$this->state = $this->get('State');
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
+        
+        // Get curriculum
+		$tjlmscurriculumhelper = new TjlmsCurriculumHelper;
+		$this->curriculums	= $tjlmscurriculumhelper->getCurriculums();
 
+		// Get Roles
+		$SubusersMode = new SubusersModelRoles;
+		$this->roles =  $SubusersMode->getItems();
+		
+		// Set current curriculum id
+		$this->curriculum_id = $this->state->get('filter.curriculum');
+		
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

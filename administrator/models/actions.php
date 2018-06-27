@@ -34,9 +34,6 @@ class SubusersModelActions extends JModelList
 				'id', 'a.`id`',
 				'name', 'a.`name`',
 				'client', 'a.`client`',
-				'created_by', 'a.`created_by`',
-				'ordering', 'a.`ordering`',
-				'state', 'a.`state`',
 			);
 		}
 
@@ -64,9 +61,6 @@ class SubusersModelActions extends JModelList
 		$search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$published = $app->getUserStateFromRequest($this->context . '.filter.state', 'filter_published', '', 'string');
-		$this->setState('filter.state', $published);
-
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_subusers');
 		$this->setState('params', $params);
@@ -92,7 +86,6 @@ class SubusersModelActions extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.state');
 
 		return parent::getStoreId($id);
 	}
@@ -118,26 +111,6 @@ class SubusersModelActions extends JModelList
 		);
 		$query->from('`#__tjsu_actions` AS a');
 
-		// Join over the users for the checked out user
-		$query->select("uc.name AS editor");
-		$query->join("LEFT", "#__users AS uc ON uc.id=a.checked_out");
-
-		// Join over the user field 'created_by'
-		$query->select('`created_by`.name AS `created_by`');
-		$query->join('LEFT', '#__users AS `created_by` ON `created_by`.id = a.`created_by`');
-
-		// Filter by published state
-		$published = $this->getState('filter.state');
-
-		if (is_numeric($published))
-		{
-			$query->where('a.state = ' . (int) $published);
-		}
-		elseif ($published === '')
-		{
-			$query->where('(a.state IN (0, 1))');
-		}
-
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 
@@ -154,8 +127,6 @@ class SubusersModelActions extends JModelList
 			}
 		}
 
-		// Add the list ordering clause.
-		$orderCol  = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
 
 		if ($orderCol && $orderDirn)

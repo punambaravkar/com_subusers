@@ -33,6 +33,7 @@ if ($saveOrder)
 }
 
 $sortFields = $this->getSortFields();
+//print_r($this->items);exit;
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function () {
@@ -114,6 +115,7 @@ if (!empty($this->extra_sidebar))
 							<?php echo JText::_('JGLOBAL_ORDER_DESCENDING'); ?>
 						</option>
 					</select>
+					
 				</div>
 				<div class="btn-group pull-right">
 					<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY'); ?></label>
@@ -122,6 +124,20 @@ if (!empty($this->extra_sidebar))
 						<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder); ?>
 					</select>
 				</div>
+				
+				<div class="btn-group pull-right">
+					<select name="filter_curriculum" class="inputbox" onchange="this.form.submit()">
+								<?php echo JHtml::_('select.options', $this->curriculums, 'value', 'text', $this->state->get('filter.curriculum'));?>
+					</select>
+				</div>
+
+				<div class="btn-group pull-right">
+					<select name="filter_roles" class="inputbox" onchange="this.form.submit()">
+						<option value=""><?php echo JText::_('COM_SUBUSERS_TITLE_PROFILE_TYPE'); ?></option>
+								<?php echo JHtml::_('select.options', $this->roles, 'id', 'name', $this->state->get('filter.roles'));?>
+					</select>
+				</div>
+				
 			</div>
 			<div class="clearfix"></div>
 			<table class="table table-striped" id="userList">
@@ -145,19 +161,21 @@ if (!empty($this->extra_sidebar))
 						<th class='left'>
 							<?php echo JHtml::_('grid.sort',  'COM_SUBUSERS_USERS_USER_ID', 'a.`user_id`', $listDirn, $listOrder); ?>
 						</th>
-						<th class='left'>
-							<?php echo JHtml::_('grid.sort',  'COM_SUBUSERS_USERS_CLIENT_ID', 'a.`client_id`', $listDirn, $listOrder); ?>
-						</th>
+						<!--  Orgnization -->
+						<!--<th class='left'>
+							<?php //echo JHtml::_('grid.sort',  'COM_SUBUSERS_USERS_CLIENT_ID', 'a.`client_id`', $listDirn, $listOrder); ?>
+						</th>-->
 						<th class='left'>
 							<?php echo JHtml::_('grid.sort',  'COM_SUBUSERS_USERS_ROLE_ID', 'a.`role_id`', $listDirn, $listOrder); ?>
 						</th>
-						<th class='left'>
-							<?php echo JHtml::_('grid.sort',  'COM_SUBUSERS_USERS_CREATED_BY', 'a.`created_by`', $listDirn, $listOrder); ?>
-						</th>
+						<!--  Orgnization Admin-->
+						<!--<th class='left'>
+							<?php //echo JHtml::_('grid.sort',  'COM_SUBUSERS_USERS_CREATED_BY', 'a.`created_by`', $listDirn, $listOrder); ?>
+						</th>-->
 
 						<?php if (isset($this->items[0]->id)): ?>
 							<th width="1%" class="nowrap center hidden-phone">
-								<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.`id`', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.`user_id`', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif; ?>
 					</tr>
@@ -202,7 +220,7 @@ if (!empty($this->extra_sidebar))
 								</td>
 							<?php endif; ?>
 							<td class="hidden-phone">
-								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+								<?php echo JHtml::_('grid.id', $i, $item->user_original_id); ?>
 							</td>
 							<?php if (isset($this->items[0]->state)): ?>
 							<td class="center">
@@ -215,25 +233,27 @@ if (!empty($this->extra_sidebar))
 								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'users.', $canCheckin); ?>
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_subusers&task=user.edit&id='.(int) $item->id); ?>">
+								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->user_original_id); ?>">
 									<?php echo $this->escape($item->user_id); ?>
 								</a>
 								<?php else : ?>
 								<?php echo $this->escape($item->user_id); ?>
 								<?php endif; ?>
 							</td>
+							<!--  Orgnization -->
+							<!--<td>
+								<?php //echo $item->client_id; ?>
+							</td>-->
 							<td>
-								<?php echo $item->client_id; ?>
+								<?php echo $item->role_name; ?>
 							</td>
-							<td>
-								<?php echo $item->role_id; ?>
-							</td>
-							<td>
-								<?php echo $item->created_by; ?>
-							</td>
+							<!--  Orgnization Admin-->
+							<!--<td>
+								<?php //echo $item->created_by; ?>
+							</td>-->
 							<?php if (isset($this->items[0]->id)): ?>
 							<td class="center hidden-phone">
-								<?php echo (int) $item->id; ?>
+								<?php echo (int) $item->user_original_id; ?>
 							</td>
 							<?php endif; ?>
 						</tr>

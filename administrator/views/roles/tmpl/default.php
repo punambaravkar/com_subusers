@@ -139,15 +139,10 @@ if (!empty($this->extra_sidebar))
 						<input type="checkbox" name="checkall-toggle" value=""
 							   title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)"/>
 					</th>
-					<?php if (isset($this->items[0]->state)): ?>
-						<th width="1%" class="nowrap center">
-	<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.`state`', $listDirn, $listOrder); ?>
-</th>
-					<?php endif; ?>
 
-									<th class='left'>
-				<?php echo JHtml::_('grid.sort',  'COM_SUBUSERS_ROLES_NAME', 'a.`name`', $listDirn, $listOrder); ?>
-				</th>
+					<th class='left'>
+						<?php echo JHtml::_('grid.sort',  'COM_SUBUSERS_ROLES_NAME', 'a.`name`', $listDirn, $listOrder); ?>
+					</th>
 
 
 					<?php if (isset($this->items[0]->id)): ?>
@@ -201,9 +196,7 @@ if (!empty($this->extra_sidebar))
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<?php if (isset($this->items[0]->state)): ?>
-							<td class="center">
-	<?php echo JHtml::_('jgrid.published', $item->state, $i, 'roles.', $canChange, 'cb'); ?>
-</td>
+
 						<?php endif; ?>
 
 										<td>
@@ -235,4 +228,4 @@ if (!empty($this->extra_sidebar))
 			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>"/>
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
-</form>        
+</form>

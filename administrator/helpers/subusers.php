@@ -4,7 +4,7 @@
  * @version    CVS: 1.0.0
  * @package    Com_Subusers
  * @author     Techjoomla <contact@techjoomla.com>
- * @copyright  Copyright (C) 2015. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // No direct access
@@ -26,36 +26,21 @@ class SubusersHelper
 	 */
 	public static function addSubmenu($vName = '')
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('COM_SUBUSERS_TITLE_ORGANIZATIONS'),
-			'index.php?option=com_subusers&view=organizations',
-			$vName == 'organizations'
-		);
-
-JHtmlSidebar::addEntry(
-			JText::_('COM_SUBUSERS_TITLE_USERS'),
-			'index.php?option=com_subusers&view=users',
-			$vName == 'users'
-		);
-
 JHtmlSidebar::addEntry(
 			JText::_('COM_SUBUSERS_TITLE_ROLES'),
 			'index.php?option=com_subusers&view=roles',
 			$vName == 'roles'
 		);
-
 JHtmlSidebar::addEntry(
 			JText::_('COM_SUBUSERS_TITLE_ACTIONS'),
 			'index.php?option=com_subusers&view=actions',
 			$vName == 'actions'
 		);
-
 JHtmlSidebar::addEntry(
-			JText::_('COM_SUBUSERS_TITLE_MAPPINGS'),
-			'index.php?option=com_subusers&view=mappings',
-			$vName == 'mappings'
+			JText::_('COM_SUBUSERS_TITLE_USERS'),
+			'index.php?option=com_subusers&view=users',
+			$vName == 'users'
 		);
-
 	}
 
 	/**

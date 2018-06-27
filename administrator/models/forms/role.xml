@@ -4,29 +4,49 @@
 
               <field name="id" type="text" default="0" label="COM_SUBUSERS_FORM_LBL_ROLE_ID"
             readonly="true" class="readonly"
-            description="JGLOBAL_FIELD_ID_DESC" /> 
+            description="JGLOBAL_FIELD_ID_DESC" />
 
        <field name="name" type="text" size="40" class="inputbox"
-                                                    
+
             label="COM_SUBUSERS_FORM_LBL_ROLE_NAME"
-            description="COM_SUBUSERS_FORM_DESC_ROLE_NAME" 
-                                                    
-                                                    
-                                                     required="true" 
-                                                    filter="safehtml" /> 
+            description="COM_SUBUSERS_FORM_DESC_ROLE_NAME"
+
+
+                                                     required="true"
+                                                    filter="safehtml" />
+
+		<field name="su_actions"
+		type="sql"
+		default="10"
+		label="Select an Action"
+		multiple="true"
+		query="SELECT id, CONCAT(client, '.', name)  AS title FROM #__tjsu_actions"
+		key_field="id"
+		value_field="title" />
+
+
+
+		<field name="actions"
+			type="Actions"
+			size="40"
+			class="inputbox"
+			label="Select an Action"
+			description="Select an Action"
+			/>
+
 
        <field name="client" type="text" size="40" class="inputbox"
-                                                    
-            label="COM_SUBUSERS_FORM_LBL_ROLE_CLIENT"
-            description="COM_SUBUSERS_FORM_DESC_ROLE_CLIENT" 
-                                                    
-                                                    
-                                                    
-                                                    filter="safehtml" /> 
 
-       <field name="created_by" type="createdby" default="" 
+            label="COM_SUBUSERS_FORM_LBL_ROLE_CLIENT"
+            description="COM_SUBUSERS_FORM_DESC_ROLE_CLIENT"
+
+
+
+                                                    filter="safehtml" />
+
+       <field name="created_by" type="createdby" default=""
             label="COM_SUBUSERS_FORM_LBL_ROLE_CREATED_BY"
-            description="COM_SUBUSERS_FORM_DESC_ROLE_CREATED_BY"  /> 
+            description="COM_SUBUSERS_FORM_DESC_ROLE_CREATED_BY"  />
 
          <field
         name="state"
@@ -40,7 +60,7 @@
         <option value="0">JUNPUBLISHED</option>
         <option value="2">JARCHIVED</option>
         <option value="-2">JTRASHED</option>
-    </field> 
+    </field>
 
                         <field name="checked_out" type="hidden" filter="unset" />
         <field name="checked_out_time" type="hidden" filter="unset" />

@@ -22,7 +22,7 @@ $document->addStyleSheet(JPATH_ROOT . 'media/com_subusers/css/edit.css');
 <script type="text/javascript">
 	js = jQuery.noConflict();
 	js(document).ready(function () {
-		
+
 	});
 
 	Joomla.submitbutton = function (task) {
@@ -30,9 +30,9 @@ $document->addStyleSheet(JPATH_ROOT . 'media/com_subusers/css/edit.css');
 			Joomla.submitform(task, document.getElementById('user-form'));
 		}
 		else {
-			
+
 			if (task != 'user.cancel' && document.formvalidator.isValid(document.id('user-form'))) {
-				
+
 				Joomla.submitform(task, document.getElementById('user-form'));
 			}
 			else {
@@ -69,7 +69,7 @@ $document->addStyleSheet(JPATH_ROOT . 'media/com_subusers/css/edit.css');
 				<?php if(empty($this->item->created_by)){ ?>
 					<input type="hidden" name="jform[created_by]" value="<?php echo JFactory::getUser()->id; ?>" />
 
-				<?php } 
+				<?php }
 				else{ ?>
 					<input type="hidden" name="jform[created_by]" value="<?php echo $this->item->created_by; ?>" />
 
@@ -84,7 +84,7 @@ $document->addStyleSheet(JPATH_ROOT . 'media/com_subusers/css/edit.css');
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		
+
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

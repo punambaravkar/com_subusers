@@ -78,7 +78,7 @@ class SubusersViewRoles extends JViewLegacy
 			if ($canDo->get('core.create'))
 			{
 				JToolBarHelper::addNew('role.add', 'JTOOLBAR_NEW');
-				//JToolbarHelper::custom('roles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
+				JToolbarHelper::custom('roles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
 			}
 
 			if ($canDo->get('core.edit') && isset($this->items[0]))
@@ -126,6 +126,12 @@ class SubusersViewRoles extends JViewLegacy
 				JToolBarHelper::trash('roles.trash', 'JTOOLBAR_TRASH');
 				JToolBarHelper::divider();
 			}
+		}
+
+		if ($canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'roles.delete', 'JTOOLBAR_DELETE');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin'))

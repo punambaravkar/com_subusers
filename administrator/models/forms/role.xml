@@ -10,30 +10,8 @@
 
             label="COM_SUBUSERS_FORM_LBL_ROLE_NAME"
             description="COM_SUBUSERS_FORM_DESC_ROLE_NAME"
-
-
-                                                     required="true"
-                                                    filter="safehtml" />
-
-		<field name="su_actions"
-		type="sql"
-		default="10"
-		label="Select an Action"
-		multiple="true"
-		query="SELECT id, CONCAT(client, '.', name)  AS title FROM #__tjsu_actions"
-		key_field="id"
-		value_field="title" />
-
-
-
-		<field name="actions"
-			type="Actions"
-			size="40"
-			class="inputbox"
-			label="Select an Action"
-			description="Select an Action"
-			/>
-
+            required="true"
+            filter="safehtml" />
 
        <field name="client" type="text" size="40" class="inputbox"
 
